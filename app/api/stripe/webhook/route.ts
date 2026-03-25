@@ -4,7 +4,6 @@ import { createServiceClient } from "@/lib/supabase/server";
 import { sendEmail, enrolmentEmail } from "@/lib/emailit";
 import Stripe from "stripe";
 
-export const config = { api: { bodyParser: false } };
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
