@@ -18,19 +18,21 @@ export default async function CoursePage({ params }: { params: { slug: string } 
 
   if (!enrolment) redirect(`/api/stripe/checkout?courseId=${course.id}`);
 
-  // External URL — redirect student directly
   if (course.external_url) redirect(course.external_url);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-dark-base">
       <Header user={user} />
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1">
         <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="flex items-center gap-4 mb-6">
-            <a href="/dashboard" className="text-brand-600 hover:underline text-sm">← Dashboard</a>
-            <h1 className="text-2xl font-bold text-gray-900">{course.title}</h1>
+            <a href="/dashboard" className="text-brand hover:text-brand-light text-sm transition">
+              ← Dashboard
+            </a>
+            <span className="text-dark-card">|</span>
+            <h1 className="font-heading text-xl">{course.title}</h1>
           </div>
-          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+          <div className="card-dark overflow-hidden">
             <iframe
               src={`/api/course/${params.slug}`}
               className="w-full min-h-[80vh] border-0"

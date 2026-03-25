@@ -10,15 +10,20 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50:  "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          500: "#0ea5e9",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
+          DEFAULT: "#32E6E2",
+          dark:    "#1BB8B4",
+          light:   "#7FF3F1",
         },
+        accent: "#6366F1",
+        dark: {
+          base: "#0F172A",
+          mid:  "#1E293B",
+          card: "#334155",
+        },
+      },
+      fontFamily: {
+        heading: ['"Archivo Black"', "sans-serif"],
+        sans:    ['"DM Sans"', "sans-serif"],
       },
     },
   },

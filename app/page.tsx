@@ -14,28 +14,35 @@ export default async function HomePage() {
     .order("created_at");
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-dark-base">
       <Header user={user} />
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-700 to-brand-900 text-white py-24 px-4">
+      <section className="py-28 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-6">
-            Retail Education That<br />Actually Drives Results
+          {/* Pill badge */}
+          <div className="inline-flex items-center gap-2 border border-brand/40 text-brand text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand inline-block" />
+            Professional Learning Platform
+          </div>
+
+          <h1 className="font-heading text-5xl md:text-6xl leading-tight mb-6">
+            Learn the skills that{" "}
+            <span className="text-brand">move the needle</span>
           </h1>
-          <p className="text-xl text-brand-100 mb-10 max-w-2xl mx-auto">
-            Practical, no-fluff courses built for retail operators ready to grow
-            their business and improve their margins.
+
+          <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+            Practical courses built by practitioners. No theory overload — just
+            frameworks you can apply from day one.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="#courses"
-              className="bg-white text-brand-700 px-8 py-3 rounded-lg font-semibold hover:bg-brand-50 transition">
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="#courses" className="btn-primary">
               Browse Courses
             </Link>
             {!user && (
-              <Link href="/signup"
-                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition">
-                Sign Up Free
+              <Link href="/signup" className="btn-outline">
+                Create Free Account
               </Link>
             )}
           </div>
@@ -43,31 +50,49 @@ export default async function HomePage() {
       </section>
 
       {/* Courses */}
-      <section id="courses" className="py-20 px-4 bg-gray-50 flex-1">
+      <section id="courses" className="py-20 px-4 flex-1">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
-            Available Courses
-          </h2>
+          <div className="text-center mb-14">
+            <h2 className="font-heading text-3xl md:text-4xl mb-3">
+              Available Courses
+            </h2>
+            <p className="text-slate-400 text-sm tracking-wide">
+              Each course is self-paced, lifetime access.
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-8">
             {courses?.map((course) => (
-              <div key={course.id}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+              <div key={course.id} className="card-dark flex flex-col hover:border-brand/40 transition-all duration-200">
                 {course.thumbnail_url ? (
-                  <img src={course.thumbnail_url} alt={course.title} className="w-full h-48 object-cover" />
+                  <img
+                    src={course.thumbnail_url}
+                    alt={course.title}
+                    className="w-full h-52 object-cover"
+                  />
                 ) : (
-                  <div className="w-full h-48 bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
-                    <span className="text-white text-4xl">📚</span>
+                  <div className="w-full h-52 bg-dark-card flex items-center justify-center">
+                    {/* Book icon */}
+                    <svg className="w-12 h-12 text-brand/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                        d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
                   </div>
                 )}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
-                  <p className="text-gray-600 mb-4">{course.description}</p>
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-heading text-lg mb-2">{course.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-6">
+                    {course.description}
+                  </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-brand-600">
-                      ${course.price_aud} AUD
+                    <span className="text-brand font-heading text-2xl">
+                      ${course.price_aud}
+                      <span className="text-slate-500 text-sm font-sans ml-1">AUD</span>
                     </span>
-                    <Link href={`/api/stripe/checkout?courseId=${course.id}`}
-                      className="bg-brand-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-brand-700 transition">
+                    <Link
+                      href={user ? `/api/stripe/checkout?courseId=${course.id}` : "/signup"}
+                      className="btn-primary text-xs px-4 py-2"
+                    >
                       Enrol Now
                     </Link>
                   </div>
@@ -75,7 +100,9 @@ export default async function HomePage() {
               </div>
             ))}
             {(!courses || courses.length === 0) && (
-              <p className="text-gray-500 col-span-2 text-center py-12">Courses coming soon.</p>
+              <p className="text-slate-500 col-span-2 text-center py-16">
+                Courses coming soon.
+              </p>
             )}
           </div>
         </div>

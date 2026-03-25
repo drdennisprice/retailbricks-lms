@@ -13,20 +13,19 @@ export default async function AdminOverviewPage() {
   ]);
 
   const stats = [
-    { label: "Total Users", value: userCount ?? 0, icon: "👤" },
-    { label: "Courses", value: courseCount ?? 0, icon: "📚" },
-    { label: "Enrolments", value: enrolmentCount ?? 0, icon: "✅" },
+    { label: "Total Users", value: userCount ?? 0 },
+    { label: "Courses", value: courseCount ?? 0 },
+    { label: "Enrolments", value: enrolmentCount ?? 0 },
   ];
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Overview</h1>
+      <h1 className="font-heading text-2xl mb-8">Overview</h1>
       <div className="grid grid-cols-3 gap-6">
         {stats.map((s) => (
-          <div key={s.label} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-            <div className="text-3xl mb-2">{s.icon}</div>
-            <p className="text-sm text-gray-500">{s.label}</p>
-            <p className="text-3xl font-bold text-brand-600 mt-1">{s.value}</p>
+          <div key={s.label} className="card-dark p-6">
+            <p className="text-sm text-slate-400 mb-1">{s.label}</p>
+            <p className="font-heading text-4xl text-brand">{s.value}</p>
           </div>
         ))}
       </div>
