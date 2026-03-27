@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+// RetailBricks suite — external sub-domain links
+const SUITE_LINKS = [
+  { label: "Home",  href: "https://retailbricks.com" },
+  { label: "Ads",   href: "https://ads.retailbricks.com" },
+  { label: "Bench", href: "https://bench.retailbricks.com" },
+  { label: "Coach", href: "https://coach.retailbricks.com" },
+] as const;
+
 export default async function Header({ user }: { user: any }) {
   let isAdmin = false;
 
@@ -23,11 +31,30 @@ export default async function Header({ user }: { user: any }) {
   return (
     <header className="bg-dark-base/80 backdrop-blur-sm border-b border-dark-card sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Wordmark */}
         <Link href="/" className="font-heading text-xl tracking-wide">
           <span className="text-white">RETAIL</span>
           <span className="text-brand">BRICKS</span>
         </Link>
+
         <nav className="flex items-center gap-5">
+          {/* RetailBricks suite links — always visible */}
+          {SUITE_LINKS.map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-slate-400 hover:text-white transition"
+            >
+              {label}
+            </a>
+          ))}
+
+          {/* Divider */}
+          <span className="h-4 w-px bg-dark-card" aria-hidden="true" />
+
+          {/* App-specific links */}
           {user ? (
             <>
               <Link href="#courses" className="text-sm text-slate-400 hover:text-white transition">
