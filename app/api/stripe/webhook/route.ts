@@ -18,7 +18,17 @@ export async function POST(request: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const { user_id, course_id } = session.metadata ?? {};
+    const { user_id, course_id, app } = session.metadata ?? {};
+
+    // ── Metadata guard: ignore events not belonging to this app ─────────────
+    // All RetailBricks apps share the same Stripe account and receive ALL
+    // checkout events. Only process sessions tagged app='retailbricks-lms'.
+    // Events from ads.retailbricks.com, coach.retailbricks.com, etc. are
+    // silently acknowledged so Stripe does not retry them.
+    if (app && app !== 'retailbricks-lms') {
+      console.log(`[webhook] Ignoring event - not an LMS session: app=${app}`);
+      return NextResponse.json({ received: true });
+    }
 
     if (user_id && course_id) {
       const supabase = createServiceClient();

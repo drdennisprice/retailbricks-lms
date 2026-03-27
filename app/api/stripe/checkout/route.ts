@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       },
       quantity: 1,
     }],
-    metadata: { user_id: user.id, course_id: courseId },
+    metadata: { user_id: user.id, course_id: courseId, app: 'retailbricks-lms', product: 'lms_course' },
     success_url: `${siteUrl}/dashboard?enrolled=1`,
     cancel_url: `${siteUrl}/`,
   });
